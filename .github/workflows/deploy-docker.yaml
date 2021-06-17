@@ -24,7 +24,6 @@ jobs:
         run: |
           # TAG_VERSION=${{ steps.get_version.outputs.VERSION }}
           TAG_VERSION=v1.1.1
-          cd ${GITHUB_WORKSPACE} & ll
-          cd ${GITHUB_WORKSPACE} & docker image build . -t ${REGISTRY_HOSTNAME}/${IMAGE_NODE}:${TAG_VERSION} -f ./docker/Dockerfile
+          cd ${GITHUB_WORKSPACE} & docker image build . -t "${REGISTRY_HOSTNAME}/${IMAGE_NODE}:${TAG_VERSION}" -f ./docker/Dockerfile
 
 
