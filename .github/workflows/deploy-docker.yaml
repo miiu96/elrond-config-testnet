@@ -1,6 +1,6 @@
 env:
-  IMAGE_NODE: elrond-testnet-node
-  REGISTRY_HOSTNAME: miiu
+  IMAGE_NODE: node-testnet
+  REGISTRY_HOSTNAME: miiu96
 
 name: Build Docker image
 
@@ -12,7 +12,7 @@ on: [push]
 
 
 jobs:
-  build:
+  build-docker-image:
     strategy:
       matrix:
         runs-on: [ubuntu-latest]
@@ -28,9 +28,15 @@ jobs:
 
       - name: "Build image"
         run: |
-          cd ${GITHUB_WORKSPACE} && make see-files
           # TAG_VERSION=${{ steps.get_version.outputs.VERSION }}
           TAG_VERSION=v1.1.1
           cd ${GITHUB_WORKSPACE} && docker build -t "${REGISTRY_HOSTNAME}/${IMAGE_NODE}:${TAG_VERSION}" -f ./docker/Dockerfile .
+      - name: "Push image"
+        run: |
+          docker login --username miiu96 --password ${{ secrets.DOCKER_HUB_TOKEN }}
+
+          TAG_VERSION=v1.1.1
+
+          docker push "${REGISTRY_HOSTNAME}/${IMAGE_NODE}:${TAG_VERSION}"
 
 
