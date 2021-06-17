@@ -1,5 +1,6 @@
 env:
   IMAGE_NODE: elrond-testnet-node
+  REGISTRY_HOSTNAME: miiu
 
 name: Build Docker image
 
@@ -21,6 +22,6 @@ jobs:
       - name: "Build image"
         run: |
           TAG_VERSION=${{ steps.get_version.outputs.VERSION }}
-          docker image build . -t ${IMAGE_NOCE}:${TAG_VERSION} -f ./docker/Dockerfile
+          docker image build . -t ${REGISTRY_HOSTNAME}/${IMAGE_NOCE}:${TAG_VERSION} -f ./docker/Dockerfile
 
 
