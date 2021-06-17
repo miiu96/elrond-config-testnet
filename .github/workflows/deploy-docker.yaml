@@ -1,0 +1,26 @@
+env:
+  IMAGE_NODE: elrond-testnet-node
+
+name: Build Docker image
+
+on:
+  release:
+    types: [published]
+
+
+jobs:
+  build-docker-image:
+    name: "Build Docker image and publish"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+
+      - name: "Build image"
+        run: |
+          TAG_VERSION=${{ steps.get_version.outputs.VERSION }}
+          docker image build . -t ${IMAGE_NOCE}:${TAG_VERSION} -f ./docker/Dockerfile
+
+
