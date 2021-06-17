@@ -4,10 +4,11 @@ env:
 
 name: Build Docker image
 
-on:
-  release:
-    types: [published]
+#on:
+#  release:
+#    types: [published]
 
+on: [push]
 
 jobs:
   build-docker-image:
