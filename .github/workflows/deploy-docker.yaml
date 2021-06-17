@@ -19,18 +19,18 @@ jobs:
     runs-on: ${{ matrix.runs-on }}
 
     steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+
       - name: Get the version
         id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
-
-      - name: Check out code into the Go module directory
-        uses: actions/checkout@v2
 
       - name: "Build image"
         run: |
           cd ${GITHUB_WORKSPACE} && make see-files
           # TAG_VERSION=${{ steps.get_version.outputs.VERSION }}
           TAG_VERSION=v1.1.1
-          docker build -t "${REGISTRY_HOSTNAME}/${IMAGE_NODE}:${TAG_VERSION}" -f ./../docker/Dockerfile .
+          cd ${GITHUB_WORKSPACE} &&docker build -t "${REGISTRY_HOSTNAME}/${IMAGE_NODE}:${TAG_VERSION}" -f ./../docker/Dockerfile .
 
 
