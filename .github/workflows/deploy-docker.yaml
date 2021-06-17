@@ -22,7 +22,7 @@ jobs:
 
       - name: "Build image"
         run: |
-          make see-files
+          cd ${GITHUB_WORKSPACE} && make see-files
           # TAG_VERSION=${{ steps.get_version.outputs.VERSION }}
           TAG_VERSION=v1.1.1
           docker build -t "${REGISTRY_HOSTNAME}/${IMAGE_NODE}:${TAG_VERSION}" -f ./../docker/Dockerfile .
