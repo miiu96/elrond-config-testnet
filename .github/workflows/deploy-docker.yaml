@@ -4,11 +4,10 @@ env:
 
 name: Build Docker image
 
-#on:
-#  release:
-#    types: [published]
+on:
+  release:
+    types: [published]
 
-on: [push]
 
 
 jobs:
@@ -28,15 +27,12 @@ jobs:
 
       - name: "Build image"
         run: |
-          # TAG_VERSION=${{ steps.get_version.outputs.VERSION }}
-          TAG_VERSION=v1.1.1
+          TAG_VERSION=${{ steps.get_version.outputs.VERSION }}
           cd ${GITHUB_WORKSPACE} && docker build -t "${REGISTRY_HOSTNAME}/${IMAGE_NODE}:${TAG_VERSION}" -f ./docker/Dockerfile .
       - name: "Push image"
         run: |
           docker login --username miiu96 --password ${{ secrets.DOCKER_HUB_TOKEN }}
-
-          TAG_VERSION=v1.1.1
-
+          TAG_VERSION=${{ steps.get_version.outputs.VERSION }}
           docker push "${REGISTRY_HOSTNAME}/${IMAGE_NODE}:${TAG_VERSION}"
 
 
